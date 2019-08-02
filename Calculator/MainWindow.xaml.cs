@@ -23,33 +23,47 @@ namespace Calculator
     {
 
         //0 means new calculations and not in progress
-        //e.g 2+2+2*2 means progress will be 1 as long as we don't get the final result with = sign
+        //e.g 2+2+2*2 means progress will be 1 as long as we don't get the final result
         int CalculationIsOnGoing = 0;
+
+        //Used in a for loop to get the last operator used by the user
+        string LastOperatorUsedByUser = "";
+
 
         public MainWindow()
         {
             InitializeComponent();
             TbInputNumbers.Text = "0";
-            TbMemory.Text = "";
+            TbResultMemory.Text = "";
+            TbCalculationProgress.Text = "";
             
             
         }
 
+
+
+
+
+
+        //Buttons
+
         //button 0
         private void Btn0_Click(object sender, RoutedEventArgs e)
         {
-           
-                if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
-                {
-                    TbInputNumbers.Text = "0";
-                    CalculationIsOnGoing = 0;
-                }
-                else if (TbInputNumbers.Text.Length == 10)
-                {
+            
 
-                }
-                else
-                    TbInputNumbers.Text += "0";
+
+            if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
+            {
+                TbInputNumbers.Text = "0";
+                CalculationIsOnGoing = 0;
+            }
+            else if (TbInputNumbers.Text.Length == 10)
+            {
+
+            }
+            else
+                TbInputNumbers.Text += "0";
             
            
         }
@@ -57,6 +71,7 @@ namespace Calculator
         //button 1
         private void Btn1_Click(object sender, RoutedEventArgs e)
         {
+            
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "1";
@@ -73,6 +88,8 @@ namespace Calculator
         //button 2
         private void Btn2_Click(object sender, RoutedEventArgs e)
         {
+            
+
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "2";
@@ -89,6 +106,8 @@ namespace Calculator
         //button 3
         private void Btn3_Click(object sender, RoutedEventArgs e)
         {
+           
+
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "3";
@@ -105,6 +124,8 @@ namespace Calculator
         //button 4
         private void Btn4_Click(object sender, RoutedEventArgs e)
         {
+           
+
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "4";
@@ -120,6 +141,8 @@ namespace Calculator
 
         private void Btn5_Click(object sender, RoutedEventArgs e)
         {
+            
+
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "5";
@@ -136,6 +159,8 @@ namespace Calculator
         //button 6
         private void Btn6_Click(object sender, RoutedEventArgs e)
         {
+           
+
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "6";
@@ -152,6 +177,7 @@ namespace Calculator
         //button 7
         private void Btn7_Click(object sender, RoutedEventArgs e)
         {
+            
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "7";
@@ -168,6 +194,8 @@ namespace Calculator
         //button 8
         private void Btn8_Click(object sender, RoutedEventArgs e)
         {
+           
+
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "8";
@@ -184,6 +212,8 @@ namespace Calculator
         //button 9
         private void Btn9_Click(object sender, RoutedEventArgs e)
         {
+           
+
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
                 TbInputNumbers.Text = "9";
@@ -197,25 +227,83 @@ namespace Calculator
                 TbInputNumbers.Text += "9";
         }
 
+        
+        //button +
         private void BtnAddition_Click(object sender, RoutedEventArgs e)
         {
+            TbCalculationProgress.Text += TbInputNumbers.Text;
+
 
             double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
-            //MessageBox.Show("Current num:" + CurrentNumber);
+            //MessageBox.Show("Current number:" + CurrentNumber);
 
             Calculations.AddToMemory(CurrentNumber);
-
-            TbMemory.Text = CurrentNumber.ToString();
-
+        
             double Result = Calculations.Addition();
+            Calculations.IncrementMemoryIndexByOne();
+
 
             TbInputNumbers.Text = Result.ToString();
 
             //MessageBox.Show(Result.ToString());
 
-            //Calculations.GiveBack();
+            Calculations.AddToMemory(Result);
+            Calculations.IncrementMemoryIndexByOne();
+
+            //Calculations.GiveBackMemoryValues();
+
+           
+            TbCalculationProgress.Text += "+";
 
             CalculationIsOnGoing = 1;
+       
+        }
+
+        //Button =
+        private void BtnSummarize_Click(object sender, RoutedEventArgs e)
+        {
+            TbCalculationProgress.Text += "=";
+
+            string CalculationProgress = TbCalculationProgress.Text;
+
+            for(int i = 0; i<CalculationProgress.Length; i++)
+            {
+                if(CalculationProgress[i].ToString() == "+")
+                {
+                    LastOperatorUsedByUser = "+";
+                }
+                else if (CalculationProgress[i].ToString() == "-")
+                {
+                    LastOperatorUsedByUser = "-";
+                }
+                else if (CalculationProgress[i].ToString() == "/")
+                {
+                    LastOperatorUsedByUser = "/";
+                }
+                else if (CalculationProgress[i].ToString() == "*")
+                {
+                    LastOperatorUsedByUser = "*";
+                }
+            }
+
+            double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+
+            Calculations.AddToMemory(CurrentNumber);
+
+            double Result = Calculations.Summarize(LastOperatorUsedByUser);
+
+            
+
+            Calculations.AddToResultMemory(Result);
+
+            TbInputNumbers.Text = Result.ToString();
+            TbResultMemory.Text = Result.ToString();
+
+            CalculationIsOnGoing = 1;
+
+
+            TbCalculationProgress.Text = "";
+
 
         }
     }
