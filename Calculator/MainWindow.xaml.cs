@@ -30,6 +30,11 @@ namespace Calculator
         string LastOperatorUsedByUser = "";
 
 
+        //After using any button the system must wait for another input first and only then calculate the result
+        //e.g 2+2 = 4 but if we click on the + button again then it will automatically calculate the result
+        //so it will be 4+2 and not (4 + NUMBER GIVEN BY USER)
+      
+
         public MainWindow()
         {
             InitializeComponent();
@@ -231,39 +236,70 @@ namespace Calculator
         //button +
         private void BtnAddition_Click(object sender, RoutedEventArgs e)
         {
-            TbCalculationProgress.Text += TbInputNumbers.Text;
+          
+            if (TbInputNumbers.Text != "0")
+            {
+                //Progress of the calculation's text
+                TbCalculationProgress.Text += TbInputNumbers.Text;
 
 
-            double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
-            //MessageBox.Show("Current number:" + CurrentNumber);
+                //Converting the Current number which is inside the TbInputNumbers TextBlock
+                double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
 
-            Calculations.AddToMemory(CurrentNumber);
-        
-            double Result = Calculations.Addition();
-            Calculations.IncrementMemoryIndexByOne();
+                //Adding the Current number to the Memory array
+                Calculations.AddToMemory(CurrentNumber);
+
+                //Storing the calculation in the result variable, Incrementing the Memory array's index counter by one
+                //Showing the user the given result in the TbInputNumbers textBlock
+                //Adding the result to the Memory array, incrementing the Memory array's index counter by one
+                double Result = Calculations.Addition();
+                Calculations.IncrementMemoryIndexByOne();
+                TbInputNumbers.Text = Result.ToString();
+                Calculations.AddToMemory(Result);
+                Calculations.IncrementMemoryIndexByOne();
+               
+            }
+            else if(TbInputNumbers.Text == "0")
+            {
+                double MostRecentlyAddedResult = Calculations.GiveBackMostRecentValueOfResultMemory();
+                
+
+                //Progress of the calculation's text
+                TbCalculationProgress.Text += MostRecentlyAddedResult.ToString();
 
 
-            TbInputNumbers.Text = Result.ToString();
+                //Increment the index by one as we are not calculating but waiting for a new input
+                //(if this is not here then the result STEP of the Memory array will always change to the new input)
+                Calculations.IncrementMemoryIndexByOne();
+            }
+                
+               
 
-            //MessageBox.Show(Result.ToString());
 
-            Calculations.AddToMemory(Result);
-            Calculations.IncrementMemoryIndexByOne();
 
-            //Calculations.GiveBackMemoryValues();
-
-           
+            //We add the button's text to the TbCalculationProgress textblock 
             TbCalculationProgress.Text += "+";
 
+            //After the calculation this variable will always be one
             CalculationIsOnGoing = 1;
-       
+
+            //Setting the TbInputNumbers Textblock's text to default after every calculation
+            TbInputNumbers.Text = "0";
+
+            
+           
+
+
         }
 
         //Button =
         private void BtnSummarize_Click(object sender, RoutedEventArgs e)
         {
+            //We add the button's text to the TbCalculationProgress textblock 
             TbCalculationProgress.Text += "=";
 
+
+            //The most recently used operator is required for the right calculation method
             string CalculationProgress = TbCalculationProgress.Text;
 
             for(int i = 0; i<CalculationProgress.Length; i++)
@@ -286,24 +322,36 @@ namespace Calculator
                 }
             }
 
+            //Storing the current number which is inside the tbINputNumbers textblock,Adding current number to Memory array
+            //Storing the calculation in the result variable,
             double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
-
             Calculations.AddToMemory(CurrentNumber);
-
             double Result = Calculations.Summarize(LastOperatorUsedByUser);
-
-            
-
+            Calculations.AddToMemory(Result);
             Calculations.AddToResultMemory(Result);
 
+            //Setting the InputNumbers and ResultMemory textblocks's text to the result
             TbInputNumbers.Text = Result.ToString();
             TbResultMemory.Text = Result.ToString();
 
+            //After the calculation this variable will always be one
             CalculationIsOnGoing = 1;
 
-
+            //Setting the TbCalculationProgress's text to default
             TbCalculationProgress.Text = "";
 
+            //Setting the TbInputNumbers Textblock's text to default after every calculation
+            TbInputNumbers.Text = "0";
+
+        }
+
+        private void BtnClearAll_Click(object sender, RoutedEventArgs e)
+        {
+            Calculations.ClearFullMemory();
+            TbCalculationProgress.Text = "";
+            TbInputNumbers.Text = "0";
+            TbResultMemory.Text = "";
+            Calculations.GiveBackMemoryValues();
 
         }
     }

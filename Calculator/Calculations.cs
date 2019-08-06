@@ -10,6 +10,10 @@ namespace CalculatorFunctions
     {
         //The array is used as a memory,so it can be used to check the previous or next element (if there is any)
         //100 because the 0th element is always 0... I used it as I needed a Previous number for the calculations as the index can't be -1
+        //There are three STEPS of the array 
+        //Step 1: The first number is always 0 or the previous number if the user has already calculated something e.g Memory[0] = 0
+        //Step 2: This represents the current number which is in the TbInputNumbers textbox e.g Memory[1] = 50
+        //Step 3: This represents the result after any calculation e.g Memory[2] = 50; why? because 0+50 = 50
         static double[] Memory = new double[100];
 
        
@@ -186,10 +190,11 @@ namespace CalculatorFunctions
         }
 
         //Clear full Memory array
-        public static void ClearFullResultMemory()
+        public static void ClearFullMemory()
         {
-            Array.Clear(ResultMemory, 0, 50);
-            ResultMemoryIndex = 0;
+            Array.Clear(Memory, 0, 50);
+            MemoryIndex = 0;
+            
         }
 
         //Clear last element of Memory array
@@ -209,6 +214,12 @@ namespace CalculatorFunctions
         public static void AddToResultMemory(double Number)
         {
             ResultMemory[ResultMemoryIndex] = Number;
+        }
+
+        //Give back the most recently added value of ResultMemory array
+        public static double GiveBackMostRecentValueOfResultMemory()
+        {
+            return ResultMemory[ResultMemoryIndex];
         }
 
 
