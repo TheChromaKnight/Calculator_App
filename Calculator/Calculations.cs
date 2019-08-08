@@ -10,7 +10,7 @@ namespace CalculatorFunctions
     {
         //The array is used as a memory,so it can be used to check the previous or next element (if there is any)
         //100 because the 0th element is always 0... I used it as I needed a Previous number for the calculations as the index can't be -1
-        //There are three STEPS of the array 
+        //There are three STEPS of the array:
         //Step 1: The first number is always 0 or the previous number if the user has already calculated something e.g Memory[0] = 0
         //Step 2: This represents the current number which is in the TbInputNumbers textbox e.g Memory[1] = 50
         //Step 3: This represents the result after any calculation e.g Memory[2] = 50; why? because 0+50 = 50
@@ -47,7 +47,6 @@ namespace CalculatorFunctions
                 Console.WriteLine(Memory[i]);
             }
             
-            
         }
 
         //Addition
@@ -56,11 +55,8 @@ namespace CalculatorFunctions
             CurrentNumber = Memory[MemoryIndex];
             PreviousNumber = Memory[MemoryIndex -1];
             
-           
-
-            double Result = (CurrentNumber + PreviousNumber);
+            double Result = PreviousNumber + CurrentNumber;
             
-
             return  Result;
         }
 
@@ -71,13 +67,12 @@ namespace CalculatorFunctions
             PreviousNumber = Memory[MemoryIndex - 1];
            
 
-            double Result = (CurrentNumber - PreviousNumber);
+            double Result = PreviousNumber - CurrentNumber;
 
             
-
-
             return Result;
         }
+
 
         //Division
         public static double Division()
@@ -86,11 +81,9 @@ namespace CalculatorFunctions
             PreviousNumber = Memory[MemoryIndex - 1];
             
 
-            double Result = (CurrentNumber / PreviousNumber);
+            double Result = PreviousNumber / CurrentNumber;
 
            
-
-
             return Result;
 
 
@@ -103,15 +96,31 @@ namespace CalculatorFunctions
             CurrentNumber = Memory[MemoryIndex];
             PreviousNumber = Memory[MemoryIndex-1];
             
-            
-            double Result = (CurrentNumber * PreviousNumber);
-
-            
-
+            double Result = PreviousNumber * CurrentNumber;
 
             return Result;
             
             
+        }
+
+        //Square
+        public static double SquareNumber()
+        {
+            PreviousNumber = Memory[MemoryIndex - 1];
+
+            double Result = PreviousNumber * PreviousNumber;
+
+            return Result;
+        }
+        
+
+        public static double SquareRootNumber()
+        {
+            PreviousNumber = Memory[MemoryIndex - 1];
+
+            double Result = Math.Sqrt(PreviousNumber);
+
+            return Result;
         }
 
 
@@ -121,7 +130,6 @@ namespace CalculatorFunctions
         {
             CurrentNumber = Memory[MemoryIndex];
             PreviousNumber = Memory[MemoryIndex - 1];
-            MemoryIndex += 1;
 
 
             double Result = 0;
@@ -129,22 +137,22 @@ namespace CalculatorFunctions
 
             if (Operator == "+")
             {
-                Result = (CurrentNumber + PreviousNumber);
+                Result = PreviousNumber + CurrentNumber;
             }
             else if (Operator == "-")
             {
-                Result = (CurrentNumber - PreviousNumber);
+                Result = PreviousNumber - CurrentNumber;
             }
             else if (Operator == "/")
             {
-                Result = (CurrentNumber / PreviousNumber);
+                Result = PreviousNumber / CurrentNumber;
             }
             else if (Operator == "*")
             {
-                Result = (CurrentNumber * PreviousNumber);
+                Result = PreviousNumber * CurrentNumber;
             }
             else
-                Result = (-999);
+                Result = -999;
 
            
 
@@ -193,7 +201,7 @@ namespace CalculatorFunctions
         public static void ClearFullMemory()
         {
             Array.Clear(Memory, 0, 50);
-            MemoryIndex = 0;
+            MemoryIndex = 1;
             
         }
 
@@ -216,11 +224,19 @@ namespace CalculatorFunctions
             ResultMemory[ResultMemoryIndex] = Number;
         }
 
+        //Increment memory index by one
+        public static void IncrementResultMemoryIndexByOne()
+        {
+            ResultMemoryIndex += 1;
+        }
+
         //Give back the most recently added value of ResultMemory array
         public static double GiveBackMostRecentValueOfResultMemory()
         {
             return ResultMemory[ResultMemoryIndex];
         }
+
+        
 
 
 
