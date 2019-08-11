@@ -173,10 +173,6 @@ namespace CalculatorFunctions
 
 
 
-
-
-
-
         //Memory/ResultMemory get/set/clear functions/methods
         
         //Add to Memory array part
@@ -234,6 +230,19 @@ namespace CalculatorFunctions
         public static double GiveBackMostRecentValueOfResultMemory()
         {
             return ResultMemory[ResultMemoryIndex];
+        }
+
+
+        //Delete last letter of a string
+        public static string RemoveLastNumberUsedByUser(string CurrentText)
+        {
+            string AlteredText;
+
+            AlteredText = CurrentText.Remove(CurrentText.Length -1);
+
+            return AlteredText;
+
+            
         }
 
         

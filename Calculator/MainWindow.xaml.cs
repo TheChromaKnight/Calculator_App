@@ -19,6 +19,8 @@ namespace Calculator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// What if I used the nocalculationsyet variable to fix the wrong calculations 
+
     public partial class MainWindow : Window
     {
 
@@ -47,6 +49,12 @@ namespace Calculator
 
         //as long as the user did not calculate anything or the memory array has just been cleared this variable will stay 0;
         int NoCalculationsYet = 0;
+
+        //This variable represents 2 states:
+        //if the variable is set to 0, then the user can't delete the last number he used
+        //if the variable is set to 1, then the user can delete the last number he used
+        //The user can only delete the last number if there is no result on the screen, but part of it
+        int UserCanDeleteLastNumber = 1;
 
 
 
@@ -270,12 +278,14 @@ namespace Calculator
                 //Storing the calculation in the result variable (Rounding the result)
                 //Showing the user the given result in the TbResultmemory textBlock
                 //Adding the result to the Memory array, incrementing the Memory array's index counter by one
+                //Setting the UserCanDelete variable to 0
               
                 Result = Calculations.Addition();
                 Math.Round(Result, 10);
                 TbResultMemory.Text = Result.ToString();
                 Calculations.AddToMemory(Result);
                 Calculations.IncrementMemoryIndexByOne();
+                
                     
             }
             else if (TbInputNumbers.Text == "0")
@@ -340,6 +350,7 @@ namespace Calculator
 
             //Storing the current number which is inside the tbINputNumbers textblock,Adding current number to Memory array
             //Storing the calculation in the result variable (Rounding the result)
+            //User cannot delete last number of the result
             CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
             Calculations.AddToMemory(CurrentNumber);
             Result = Calculations.Summarize(LastOperatorUsedByUser);
@@ -347,6 +358,7 @@ namespace Calculator
             Math.Round(Result, 10);
             Calculations.AddToMemory(Result);
             Calculations.AddToResultMemory(Result);
+            UserCanDeleteLastNumber = 0;
 
             //Setting the ResultMemory textblocks's text to the result
 
@@ -567,20 +579,23 @@ namespace Calculator
         //button x2
         private void BtnSquared_Click(object sender, RoutedEventArgs e)
         {
-           
-            //Progress of the calculation's text
-            TbCalculationProgress.Text += TbInputNumbers.Text;
 
-            if(NoCalculationsYet == 0)
+            
+            //Use it as a Memory array filling phase, as we can't calculate with the -1th element of the array
+            if (NoCalculationsYet == 0)
             {
                 //Converting the Current number which is inside the TbInputNumbers TextBlock
                 double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+
+                //We add the button's text to the TbCalculationProgress textblock 
+                TbCalculationProgress.Text = "Sqr( " + CurrentNumber + " )";
 
 
                 //Adding the Current number to the Memory array,Incrementing the MemoryIndex by one
                 Calculations.AddToMemory(CurrentNumber);
                 Calculations.IncrementMemoryIndexByOne();
                 NoCalculationsYet = 1;
+                UserCanDeleteLastNumber = 0;
 
             }
 
@@ -597,8 +612,7 @@ namespace Calculator
             Calculations.AddToResultMemory(Result);
             Calculations.IncrementResultMemoryIndexByOne();
 
-            //We add the button's text to the TbCalculationProgress textblock 
-            TbCalculationProgress.Text = "Sqr( " + CurrentNumber + " )";
+           
 
            
             //After the calculation this variable will always be one
@@ -608,11 +622,13 @@ namespace Calculator
             TbInputNumbers.Text = "0";
         }
 
+        //button √ 
         private void BtnSquareRoot_Click(object sender, RoutedEventArgs e)
         {
             //Progress of the calculation's text
             TbCalculationProgress.Text += TbInputNumbers.Text;
 
+            //Use it as a Memory array filling phase, as we can't calculate with the -1th element of the array
             if (NoCalculationsYet == 0)
             {
                 //Converting the Current number which is inside the TbInputNumbers TextBlock
@@ -623,6 +639,7 @@ namespace Calculator
                 Calculations.AddToMemory(CurrentNumber);
                 Calculations.IncrementMemoryIndexByOne();
                 NoCalculationsYet = 1;
+                UserCanDeleteLastNumber = 0;
 
             }
 
@@ -649,6 +666,19 @@ namespace Calculator
 
             //Setting the TbInputNumbers Textblock's text to default after every calculation
             TbInputNumbers.Text = "0";
+        }
+
+        //Button <--
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            string CurrentText = TbInputNumbers.Text;
+            
+            if(UserCanDeleteLastNumber == 1 && CurrentText.Length > 1)
+            {
+                TbInputNumbers.Text = Calculations.RemoveLastNumberUsedByUser(CurrentText);
+            }
+
+
         }
     }
 }
