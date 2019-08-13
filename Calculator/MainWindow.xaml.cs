@@ -19,7 +19,7 @@ namespace Calculator
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    /// What if I used the nocalculationsyet variable to fix the wrong calculations 
+    /// 
 
     public partial class MainWindow : Window
     {
@@ -28,7 +28,7 @@ namespace Calculator
         //e.g 2+2+2*2 means progress will be 1 as long as we don't get the final result
         int CalculationIsOnGoing = 0;
 
-        //Used in a for loop to get the last operator used by the user
+        //Used in a for loop to get the last operator used by the user (BtnSummarize)
         string LastOperatorUsedByUser = "";
 
         //if this variable is set to 1, then the system will not use the last result in the TbCalculationProgress TextBlock
@@ -69,18 +69,12 @@ namespace Calculator
             
         }
 
-
-
-
-
-
+        
         //Buttons
 
         //button 0
         private void Btn0_Click(object sender, RoutedEventArgs e)
         {
-            
-
 
             if (TbInputNumbers.Text == "0" || CalculationIsOnGoing == 1)
             {
@@ -269,26 +263,29 @@ namespace Calculator
                 //Converting the Current number which is inside the TbInputNumbers TextBlock
                 CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
 
-
+                 
                 //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
                 Calculations.AddToMemory(CurrentNumber);
-                Calculations.IncrementMemoryIndexByOne();
+               
 
-                //Checking if there is a new calculation in progress or not
+                //if this is inside the program, then the multiple calculation part does not work
+                //Replacing the CurrentNumber part works more effectively and it is easire to understand
+                //Calculations.IncrementMemoryIndexByOne();
+
                 //Storing the calculation in the result variable (Rounding the result)
                 //Showing the user the given result in the TbResultmemory textBlock
                 //Adding the result to the Memory array, incrementing the Memory array's index counter by one
                 //Setting the UserCanDelete variable to 0
               
                 Result = Calculations.Addition();
+                Console.WriteLine("result:"+Result);
                 Math.Round(Result, 10);
                 TbResultMemory.Text = Result.ToString();
                 Calculations.AddToMemory(Result);
                 Calculations.IncrementMemoryIndexByOne();
-                
                     
             }
-            else if (TbInputNumbers.Text == "0")
+            if (TbInputNumbers.Text == "0")
             {
                 MostRecentlyAddedResult = Calculations.GiveBackMostRecentValueOfResultMemory();
 
@@ -358,7 +355,7 @@ namespace Calculator
             Math.Round(Result, 10);
             Calculations.AddToMemory(Result);
             Calculations.AddToResultMemory(Result);
-            UserCanDeleteLastNumber = 0;
+            UserCanDeleteLastNumber = 1;
 
             //Setting the ResultMemory textblocks's text to the result
 
@@ -384,6 +381,7 @@ namespace Calculator
 
             MemoryHasBeenCleared = 1;
             NoCalculationsYet = 0;
+            UserCanDeleteLastNumber = 1;
 
 
         }
@@ -402,22 +400,25 @@ namespace Calculator
                 CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
 
 
-
                 //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
                 Calculations.AddToMemory(CurrentNumber);
-                Calculations.IncrementMemoryIndexByOne();
+
+                //if this is inside the program, then the multiple calculation part does not work
+                //Replacing the CurrentNumber part works more effectively and it is easire to understand
+                //Calculations.IncrementMemoryIndexByOne();
 
                 //Checking if there is a new calculation in progress or not
                 //Storing the calculation in the result variable (Rounding the result)
                 //Showing the user the given result in the TbResultmemory textBlock
                 //Adding the result to the Memory array, incrementing the Memory array's index counter by one
-               
-                    Result = Calculations.Subtraction();
-                    Math.Round(Result, 10);
-                    TbResultMemory.Text = Result.ToString();
-                    Calculations.AddToMemory(Result);
-                    Calculations.IncrementMemoryIndexByOne();
-                 
+
+                Result = Calculations.Subtraction();
+                Math.Round(Result, 10);
+                TbResultMemory.Text = Result.ToString();
+                Calculations.AddToMemory(Result);
+                Calculations.IncrementMemoryIndexByOne();
+                UserCanDeleteLastNumber = 0;
+
 
             }
             else if (TbInputNumbers.Text == "0")
@@ -466,7 +467,10 @@ namespace Calculator
 
                 //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
                 Calculations.AddToMemory(CurrentNumber);
-                Calculations.IncrementMemoryIndexByOne();
+
+                //if this is inside the program, then the multiple calculation part does not work
+                //Replacing the CurrentNumber part works more effectively and it is easire to understand
+                //Calculations.IncrementMemoryIndexByOne();
 
                 //Checking if there is a new calculation in progress or not
                 //Storing the calculation in the result variable (Rounding the result)
@@ -480,6 +484,7 @@ namespace Calculator
                     Calculations.AddToMemory(Result);
                     Calculations.IncrementMemoryIndexByOne();
                     NewCalculation = 1;
+                    UserCanDeleteLastNumber = 0;
                 }
            
 
@@ -529,7 +534,10 @@ namespace Calculator
 
                 //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
                 Calculations.AddToMemory(CurrentNumber);
-                Calculations.IncrementMemoryIndexByOne();
+
+                //if this is inside the program, then the multiple calculation part does not work
+                //Replacing the CurrentNumber part works more effectively and it is easire to understand
+                //Calculations.IncrementMemoryIndexByOne();
 
                 //Checking if there is a new calculation in progress or not
                 //Storing the calculation in the result variable (Rounding the result)
@@ -543,6 +551,7 @@ namespace Calculator
                     Calculations.AddToMemory(Result);
                     Calculations.IncrementMemoryIndexByOne();
                     NewCalculation = 1;
+                    UserCanDeleteLastNumber = 0;
                 }
 
 
@@ -678,6 +687,92 @@ namespace Calculator
                 TbInputNumbers.Text = Calculations.RemoveLastNumberUsedByUser(CurrentText);
             }
 
+
+        }
+
+        //Point
+        private void BtnPoint_Click(object sender, RoutedEventArgs e)
+        {
+            bool NoPeriodInTheText = true;
+
+            string CurrentInputNumbers = TbInputNumbers.Text;
+
+            if(CurrentInputNumbers.Contains("."))
+            {
+                NoPeriodInTheText = false;
+            }
+            
+
+            if(NoPeriodInTheText == true )
+            {
+                TbInputNumbers.Text += ",";
+            }
+            
+        }
+        //Change current text to minus or positive
+        private void BtnChangePlusMinus_Click(object sender, RoutedEventArgs e)
+        {
+            if(UserCanDeleteLastNumber == 1)
+            {
+                string MinusOperator = "-";
+                string ZeroString = "0";
+
+                int Positive = 1;
+                int Negative = -1;
+                int Zero = 0;
+
+                int NumberIs = Positive;
+
+
+                //Had to convert the CurrentNumber to a double, otherwise the NumberIs Variable would stay on Positive forever
+                //Why? Because I checked whether the 0th element of the CurrentInputNumbers variable
+                //was not equal (!=) to the MinusOperator variable
+                string CurrentInputNumbers = TbInputNumbers.Text;
+                double ConvertedCurrentNumber = Convert.ToDouble(CurrentInputNumbers);
+
+                if (ConvertedCurrentNumber > 0)
+                {
+                    NumberIs = Positive;
+                }
+                else if (CurrentInputNumbers[0].ToString() == MinusOperator)
+                {
+                    NumberIs = Negative;
+                }
+                else if (CurrentInputNumbers == ZeroString)
+                {
+                    NumberIs = Zero;
+                }
+
+
+                string ReplacedInputNumbers;
+
+                if (NumberIs == Positive)
+                {
+                    ReplacedInputNumbers = MinusOperator + CurrentInputNumbers;
+                    TbInputNumbers.Text = ReplacedInputNumbers;
+                    UserCanDeleteLastNumber = 0;
+                }
+                else if (NumberIs == Negative)
+                {
+                    ReplacedInputNumbers = CurrentInputNumbers.Remove(0, 1);
+                    TbInputNumbers.Text = ReplacedInputNumbers;
+                    UserCanDeleteLastNumber = 0;
+                }
+                else if (NumberIs == Zero)
+                {
+                    ReplacedInputNumbers = CurrentInputNumbers;
+                    TbInputNumbers.Text = ReplacedInputNumbers;
+                    UserCanDeleteLastNumber = 0;
+                }
+            }
+           
+           
+
+
+        }
+
+        private void BtnClearLast_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

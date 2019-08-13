@@ -19,7 +19,7 @@
             <Button x:Name="BtnSquareRoot" Content="√" HorizontalAlignment="Left" Margin="73,10,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnSquareRoot_Click"/>
             <Button x:Name="BtnSquared" Content="x2" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" FontStyle="Italic" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnSquared_Click"/>
             <Button x:Name="Btn1x" Content="1/x" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" FontStyle="Italic" Background="#FFE8E6E6" BorderBrush="{x:Null}"/>
-            <Button x:Name="BtnClearLast" Content="CE" HorizontalAlignment="Left" Margin="3,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}"/>
+            <Button x:Name="BtnClearLast" Content="CE" HorizontalAlignment="Left" Margin="3,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnClearLast_Click"/>
             <Button x:Name="BtnClearAll" Content="C" HorizontalAlignment="Left" Margin="73,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnClearAll_Click"/>
             <Button x:Name="BtnBack" Content="&lt;--" HorizontalAlignment="Left" Margin="142,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnBack_Click"/>
             <Button x:Name="BtnDivision" Content="÷" HorizontalAlignment="Left" Margin="210,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="24" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnDivision_Click"/>
@@ -35,9 +35,9 @@
             <Button x:Name="Btn2" Content="2" HorizontalAlignment="Left" Margin="73,170,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="White" BorderBrush="{x:Null}" Click="Btn2_Click" FontWeight="Bold"/>
             <Button x:Name="Btn3" Content="3" HorizontalAlignment="Left" Margin="142,170,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="White" BorderBrush="{x:Null}" Click="Btn3_Click" FontWeight="Bold"/>
             <Button x:Name="BtnAddition" Content="+" HorizontalAlignment="Left" Margin="210,170,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="22" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnAddition_Click"/>
-            <Button x:Name="BtnChangePlusMinus" Content="+-" HorizontalAlignment="Left" Margin="3,210,0,-3" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}"/>
+            <Button x:Name="BtnChangePlusMinus" Content="+-" HorizontalAlignment="Left" Margin="3,210,0,-3" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnChangePlusMinus_Click"/>
             <Button x:Name="Btn0" Content="0" HorizontalAlignment="Left" Margin="73,210,0,-3" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="White" BorderBrush="{x:Null}" Click="Btn0_Click" FontWeight="Bold"/>
-            <Button x:Name="BtnPoint" Content="," HorizontalAlignment="Left" Margin="142,210,0,-3" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}"/>
+            <Button x:Name="BtnPoint" Content="," HorizontalAlignment="Left" Margin="142,210,0,-3" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnPoint_Click"/>
             <Button x:Name="BtnSummarize" Content="=" HorizontalAlignment="Left" Margin="210,210,0,-3" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnSummarize_Click"/>
         </Grid>
 

@@ -152,7 +152,7 @@ namespace CalculatorFunctions
                 Result = PreviousNumber * CurrentNumber;
             }
             else
-                Result = -999;
+                Result = 0;
 
            
 
@@ -245,12 +245,14 @@ namespace CalculatorFunctions
             
         }
 
-        
 
 
 
 
-       
+
+
+
+
 
 
 
