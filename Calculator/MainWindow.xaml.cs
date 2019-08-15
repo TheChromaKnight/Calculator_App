@@ -32,11 +32,11 @@ namespace Calculator
         string LastOperatorUsedByUser = "";
 
         //if this variable is set to 1, then the system will not use the last result in the TbCalculationProgress TextBlock
-        int MemoryHasBeenCleared = 0;
+        bool MemoryHasBeenCleared = false;
 
-        //if this variable is set to 1, then the system will wait for a new input before calculating
+        //if this variable is set to true, then the system will wait for a new input before calculating
         //used at the start of Multiplication or Division as 0*9 = 0; 0/9 = error
-        int NewCalculation = 1;
+        bool NewCalculation = true;
 
         //The current number which is inside the TbInputNumbers textBlock
         double CurrentNumber;
@@ -48,13 +48,12 @@ namespace Calculator
         double MostRecentlyAddedResult;
 
         //as long as the user did not calculate anything or the memory array has just been cleared this variable will stay 0;
-        int NoCalculationsYet = 0;
+        bool NoCalculationsYet = true;
 
-        //This variable represents 2 states:
-        //if the variable is set to 0, then the user can't delete the last number he used
-        //if the variable is set to 1, then the user can delete the last number he used
         //The user can only delete the last number if there is no result on the screen, but part of it
-        int UserCanDeleteLastNumber = 1;
+        //if the variable is set to true, then the user can't delete the last number he used
+        //if the variable is set to false, then the user can delete the last number he used
+        bool UserCanDeleteLastNumber = true;
 
 
 
@@ -278,12 +277,18 @@ namespace Calculator
                 //Setting the UserCanDelete variable to 0
               
                 Result = Calculations.Addition();
-                Console.WriteLine("result:"+Result);
                 Math.Round(Result, 10);
+
                 TbResultMemory.Text = Result.ToString();
+
                 Calculations.AddToMemory(Result);
                 Calculations.IncrementMemoryIndexByOne();
-                    
+
+                //Setting this variable to false as the user can use division or multiplication, because the Memory array is not empty
+                NewCalculation = false;
+
+                NoCalculationsYet = false;
+
             }
             if (TbInputNumbers.Text == "0")
             {
@@ -292,12 +297,11 @@ namespace Calculator
 
                 //Checking whether the memory has been cleared or not
                 //Progress of the calculation's text
-                if (MemoryHasBeenCleared == 1)
+                if (MemoryHasBeenCleared == true)
                 {
                     TbCalculationProgress.Text += MostRecentlyAddedResult.ToString();
-                    MemoryHasBeenCleared = 0;
+                    MemoryHasBeenCleared = false;
                 }
-
 
                 //Increment the index by one as we are not calculating but waiting for a new input
                 //(if this is not here then the result STEP of the Memory array will always change to the new input)
@@ -349,13 +353,20 @@ namespace Calculator
             //Storing the calculation in the result variable (Rounding the result)
             //User cannot delete last number of the result
             CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+
             Calculations.AddToMemory(CurrentNumber);
             Result = Calculations.Summarize(LastOperatorUsedByUser);
             Calculations.IncrementMemoryIndexByOne();
             Math.Round(Result, 10);
+
             Calculations.AddToMemory(Result);
             Calculations.AddToResultMemory(Result);
-            UserCanDeleteLastNumber = 1;
+
+            UserCanDeleteLastNumber = true;
+            NoCalculationsYet = false;
+
+            //Setting this variable to false as the user can use division or multiplication, because the Memory array is not empty
+            NewCalculation = false;
 
             //Setting the ResultMemory textblocks's text to the result
 
@@ -379,9 +390,10 @@ namespace Calculator
             TbInputNumbers.Text = "0";
             TbResultMemory.Text = "";
 
-            MemoryHasBeenCleared = 1;
-            NoCalculationsYet = 0;
-            UserCanDeleteLastNumber = 1;
+            MemoryHasBeenCleared = true;
+            NoCalculationsYet = true;
+            UserCanDeleteLastNumber = true;
+            NewCalculation = true;
 
 
         }
@@ -414,10 +426,16 @@ namespace Calculator
 
                 Result = Calculations.Subtraction();
                 Math.Round(Result, 10);
+
                 TbResultMemory.Text = Result.ToString();
+
                 Calculations.AddToMemory(Result);
                 Calculations.IncrementMemoryIndexByOne();
-                UserCanDeleteLastNumber = 0;
+
+                UserCanDeleteLastNumber = false;
+
+                //Setting this variable to false as the user can use division or multiplication, because the Memory array is not empty
+                NewCalculation = false;
 
 
             }
@@ -428,10 +446,10 @@ namespace Calculator
 
                 //Checking whether the memory has been cleared or not
                 //Progress of the calculation's text
-                if (MemoryHasBeenCleared == 1)
+                if (MemoryHasBeenCleared == true)
                 {
                     TbCalculationProgress.Text += MostRecentlyAddedResult.ToString();
-                    MemoryHasBeenCleared = 0;
+                    MemoryHasBeenCleared = false;
                 }
 
 
@@ -459,35 +477,48 @@ namespace Calculator
                 //Progress of the calculation's text
                 TbCalculationProgress.Text += TbInputNumbers.Text;
 
+                if (NewCalculation == true)
+                {
+                    //Converting the Current number which is inside the TbInputNumbers TextBlock
+                    //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
+                    CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+                    Calculations.AddToMemory(CurrentNumber);
+                    Calculations.IncrementMemoryIndexByOne();
 
-                //Converting the Current number which is inside the TbInputNumbers TextBlock
-                CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
 
+                    UserCanDeleteLastNumber = true;
 
+                }
 
-                //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
-                Calculations.AddToMemory(CurrentNumber);
 
                 //if this is inside the program, then the multiple calculation part does not work
                 //Replacing the CurrentNumber part works more effectively and it is easire to understand
                 //Calculations.IncrementMemoryIndexByOne();
 
+
                 //Checking if there is a new calculation in progress or not
+                //Converting the Current number which is inside the TbInputNumbers TextBlock
+                //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
                 //Storing the calculation in the result variable (Rounding the result)
                 //Showing the user the given result in the TbResultmemory textBlock
                 //Adding the result to the Memory array, incrementing the Memory array's index counter by one
-                if (NewCalculation == 0)
+                if (NewCalculation == false)
                 {
+
+                    CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+                    Calculations.AddToMemory(CurrentNumber);
+
                     Result = Calculations.Multiplication();
                     Math.Round(Result, 10);
+
                     TbResultMemory.Text = Result.ToString();
+
                     Calculations.AddToMemory(Result);
                     Calculations.IncrementMemoryIndexByOne();
-                    NewCalculation = 1;
-                    UserCanDeleteLastNumber = 0;
-                }
-           
 
+                    NewCalculation = true;
+                    UserCanDeleteLastNumber = false;
+                }
             }
             else if (TbInputNumbers.Text == "0")
             {
@@ -496,10 +527,10 @@ namespace Calculator
 
                 //Checking whether the memory has been cleared or not
                 //Progress of the calculation's text
-                if (MemoryHasBeenCleared == 1)
+                if (MemoryHasBeenCleared == true)
                 {
                     TbCalculationProgress.Text += MostRecentlyAddedResult.ToString();
-                    MemoryHasBeenCleared = 0;
+                    MemoryHasBeenCleared = false;
                 }
 
 
@@ -526,32 +557,47 @@ namespace Calculator
                 //Progress of the calculation's text
                 TbCalculationProgress.Text += TbInputNumbers.Text;
 
+                if (NewCalculation == true)
+                {
+                    //Converting the Current number which is inside the TbInputNumbers TextBlock
+                    //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
+                    CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+                    Calculations.AddToMemory(CurrentNumber);
+                    Calculations.IncrementMemoryIndexByOne();
 
-                //Converting the Current number which is inside the TbInputNumbers TextBlock
-                CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+                    
+                    UserCanDeleteLastNumber = true;
 
+                }
 
-
-                //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
-                Calculations.AddToMemory(CurrentNumber);
 
                 //if this is inside the program, then the multiple calculation part does not work
                 //Replacing the CurrentNumber part works more effectively and it is easire to understand
                 //Calculations.IncrementMemoryIndexByOne();
 
+
                 //Checking if there is a new calculation in progress or not
+                //Converting the Current number which is inside the TbInputNumbers TextBlock
+                //Adding the Current number to the Memory array, incrementing the Memory array's index counter by one
                 //Storing the calculation in the result variable (Rounding the result)
                 //Showing the user the given result in the TbResultmemory textBlock
                 //Adding the result to the Memory array, incrementing the Memory array's index counter by one
-                if (NewCalculation == 0)
+                if (NewCalculation == false)
                 {
+                   
+                    CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
+                    Calculations.AddToMemory(CurrentNumber);
+
                     Result = Calculations.Division();
                     Math.Round(Result, 10);
+
                     TbResultMemory.Text = Result.ToString();
+
                     Calculations.AddToMemory(Result);
                     Calculations.IncrementMemoryIndexByOne();
-                    NewCalculation = 1;
-                    UserCanDeleteLastNumber = 0;
+
+                    NewCalculation = true;
+                    UserCanDeleteLastNumber = false;
                 }
 
 
@@ -563,10 +609,10 @@ namespace Calculator
 
                 //Checking whether the memory has been cleared or not
                 //Progress of the calculation's text
-                if (MemoryHasBeenCleared == 1)
+                if (MemoryHasBeenCleared == true)
                 {
                     TbCalculationProgress.Text += MostRecentlyAddedResult.ToString();
-                    MemoryHasBeenCleared = 0;
+                    MemoryHasBeenCleared = false;
                 }
 
 
@@ -589,86 +635,136 @@ namespace Calculator
         private void BtnSquared_Click(object sender, RoutedEventArgs e)
         {
 
-            
-            //Use it as a Memory array filling phase, as we can't calculate with the -1th element of the array
-            if (NoCalculationsYet == 0)
+            if (NoCalculationsYet == true)
             {
                 //Converting the Current number which is inside the TbInputNumbers TextBlock
-                double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
-
-                //We add the button's text to the TbCalculationProgress textblock 
-                TbCalculationProgress.Text = "Sqr( " + CurrentNumber + " )";
-
-
                 //Adding the Current number to the Memory array,Incrementing the MemoryIndex by one
+                //Storing the calculation in the result variable (Rounding the result)
+                //Showing the user the given result in the TbResultmemory textBlock
+                //We add the button's text to the TbCalculationProgress textblock 
+                //Adding the result to the Memory array and ResultMemory array
+                //incrementing the Memory array's and ResultMemory array's index counter by one
+
+                double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
                 Calculations.AddToMemory(CurrentNumber);
                 Calculations.IncrementMemoryIndexByOne();
-                NoCalculationsYet = 1;
-                UserCanDeleteLastNumber = 0;
+
+                double Result = Calculations.SquareNumber();
+                Math.Round(Result, 10);
+
+                TbResultMemory.Text = Result.ToString();
+                TbCalculationProgress.Text = "(" + CurrentNumber + " * " + CurrentNumber + ")";
+
+                Calculations.AddToMemory(Result);
+                Calculations.GiveBackMemoryValues();
+                Calculations.AddToResultMemory(Result);
+                Calculations.IncrementResultMemoryIndexByOne();
+
+                //Setting the NoCalculationsYet variable to false as we've just calculated the result
+                NoCalculationsYet = false;
+
+
+            }
+            else if (NoCalculationsYet == false)
+            {
+                //Storing the previous element of the Memory array in the Previous number variable
+                //Storing the calculation in the result variable (Rounding the result)
+                //Showing the user the given result in the TbResultmemory textBlock
+                //We add the button's text to the TbCalculationProgress textblock 
+                //Adding the result to the Memory array and ResultMemory array
+                //incrementing the Memory array's and ResultMemory array's index counter by one
+
+                Calculations.IncrementMemoryIndexByOne();
+                double PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
+                double Result = Calculations.SquareNumber();
+                Math.Round(Result, 10);
+
+                TbResultMemory.Text = Result.ToString();
+                TbCalculationProgress.Text = "(" + PreviousNumber + " * " + PreviousNumber + ")";
+
+                Calculations.AddToMemory(Result);
+                Calculations.GiveBackMemoryValues();
+                Calculations.AddToResultMemory(Result);
+                Calculations.IncrementResultMemoryIndexByOne();
 
             }
 
+            //Setting this variable to false as the user can use division or multiplication, because the Memory array is not empty
+            NewCalculation = false;
 
-            //Storing the calculation in the result variable (Rounding the result)
-            //Showing the user the given result in the TbResultmemory textBlock
-            //Adding the result to the Memory array and ResultMemory array
-            //incrementing the Memory array's and ResultMemory array's index counter by one
-            double Result = Calculations.SquareNumber();
-            Math.Round(Result, 10);
-            TbResultMemory.Text = Result.ToString();
-            Calculations.AddToMemory(Result);
-            Calculations.IncrementMemoryIndexByOne();
-            Calculations.AddToResultMemory(Result);
-            Calculations.IncrementResultMemoryIndexByOne();
+            //Setting the UserCanDeleteLastNumber variable to false as the user cannot Delete back from the result
+            UserCanDeleteLastNumber = false;
 
-           
-
-           
             //After the calculation this variable will always be one
             CalculationIsOnGoing = 1;
 
             //Setting the TbInputNumbers Textblock's text to default after every calculation
             TbInputNumbers.Text = "0";
+
         }
 
         //button √ 
         private void BtnSquareRoot_Click(object sender, RoutedEventArgs e)
         {
-            //Progress of the calculation's text
-            TbCalculationProgress.Text += TbInputNumbers.Text;
-
-            //Use it as a Memory array filling phase, as we can't calculate with the -1th element of the array
-            if (NoCalculationsYet == 0)
+            if (NoCalculationsYet == true)
             {
                 //Converting the Current number which is inside the TbInputNumbers TextBlock
-                double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
-
-
                 //Adding the Current number to the Memory array,Incrementing the MemoryIndex by one
+                //Storing the calculation in the result variable (Rounding the result)
+                //Showing the user the given result in the TbResultmemory textBlock
+                //We add the button's text to the TbCalculationProgress textblock 
+                //Adding the result to the Memory array and ResultMemory array
+                //incrementing the Memory array's and ResultMemory array's index counter by one
+
+                double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
                 Calculations.AddToMemory(CurrentNumber);
                 Calculations.IncrementMemoryIndexByOne();
-                NoCalculationsYet = 1;
-                UserCanDeleteLastNumber = 0;
+
+                double Result = Calculations.SquareRootNumber();
+                Math.Round(Result, 10);
+
+                TbResultMemory.Text = Result.ToString();
+                TbCalculationProgress.Text = "√" + CurrentNumber + "";
+
+                Calculations.AddToMemory(Result);
+                Calculations.GiveBackMemoryValues();
+                Calculations.AddToResultMemory(Result);
+                Calculations.IncrementResultMemoryIndexByOne();
+
+                //Setting the NoCalculationsYet variable to false as we've just calculated the result
+                NoCalculationsYet = false;
+
+
+            }
+            else if (NoCalculationsYet == false)
+            {
+                //Storing the previous element of the Memory array in the Previous number variable
+                //Storing the calculation in the result variable (Rounding the result)
+                //Showing the user the given result in the TbResultmemory textBlock
+                //We add the button's text to the TbCalculationProgress textblock 
+                //Adding the result to the Memory array and ResultMemory array
+                //incrementing the Memory array's and ResultMemory array's index counter by one
+
+                Calculations.IncrementMemoryIndexByOne();
+                double PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
+                double Result = Calculations.SquareRootNumber();
+                Math.Round(Result, 10);
+
+                TbResultMemory.Text = Result.ToString();
+                TbCalculationProgress.Text = "(" + PreviousNumber + " * " + PreviousNumber + ")";
+
+                Calculations.AddToMemory(Result);
+                Calculations.GiveBackMemoryValues();
+                Calculations.AddToResultMemory(Result);
+                Calculations.IncrementResultMemoryIndexByOne();
 
             }
 
+            //Setting the UserCanDeleteLastNumber variable to false as the user cannot Delete back from the result
+            UserCanDeleteLastNumber = false;
 
-            //Storing the calculation in the result variable (Rounding the result)
-            //Showing the user the given result in the TbResultmemory textBlock
-            //Adding the result to the Memory array and ResultMemory array
-            //incrementing the Memory array's and ResultMemory array's index counter by one
-            double Result = Calculations.SquareRootNumber();
-            Math.Round(Result, 10);
-            
-            TbResultMemory.Text = Result.ToString();
-            Calculations.AddToMemory(Result);
-            Calculations.IncrementMemoryIndexByOne();
-            Calculations.AddToResultMemory(Result);
-            Calculations.IncrementResultMemoryIndexByOne();
-
-            //We add the button's text to the TbCalculationProgress textblock 
-            TbCalculationProgress.Text = "√( " + CurrentNumber + " )";
-
+            //Setting this variable to false as the user can use division or multiplication, because the Memory array is not empty
+            NewCalculation = false;
 
             //After the calculation this variable will always be one
             CalculationIsOnGoing = 1;
@@ -682,7 +778,7 @@ namespace Calculator
         {
             string CurrentText = TbInputNumbers.Text;
             
-            if(UserCanDeleteLastNumber == 1 && CurrentText.Length > 1)
+            if(UserCanDeleteLastNumber == true && CurrentText.Length > 1)
             {
                 TbInputNumbers.Text = Calculations.RemoveLastNumberUsedByUser(CurrentText);
             }
@@ -712,7 +808,7 @@ namespace Calculator
         //Change current text to minus or positive
         private void BtnChangePlusMinus_Click(object sender, RoutedEventArgs e)
         {
-            if(UserCanDeleteLastNumber == 1)
+            if(UserCanDeleteLastNumber == true)
             {
                 string MinusOperator = "-";
                 string ZeroString = "0";
@@ -750,28 +846,39 @@ namespace Calculator
                 {
                     ReplacedInputNumbers = MinusOperator + CurrentInputNumbers;
                     TbInputNumbers.Text = ReplacedInputNumbers;
-                    UserCanDeleteLastNumber = 0;
+                    UserCanDeleteLastNumber = false;
                 }
                 else if (NumberIs == Negative)
                 {
                     ReplacedInputNumbers = CurrentInputNumbers.Remove(0, 1);
                     TbInputNumbers.Text = ReplacedInputNumbers;
-                    UserCanDeleteLastNumber = 0;
+                    UserCanDeleteLastNumber = false;
                 }
                 else if (NumberIs == Zero)
                 {
                     ReplacedInputNumbers = CurrentInputNumbers;
                     TbInputNumbers.Text = ReplacedInputNumbers;
-                    UserCanDeleteLastNumber = 0;
+                    UserCanDeleteLastNumber = false;
                 }
             }
-           
-           
-
+         
 
         }
 
+        //Button CE
         private void BtnClearLast_Click(object sender, RoutedEventArgs e)
+        {
+            TbInputNumbers.Text = "0";
+        }
+
+        //Button <<
+        private void BtnPrevious_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        //Button >>
+        private void BtnNextResult_Click(object sender, RoutedEventArgs e)
         {
 
         }

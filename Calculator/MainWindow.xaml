@@ -9,17 +9,17 @@
     <Grid Margin="0,0,-8,-4">
         <Grid HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="287" Background="#FFECF1F1">
             <TextBlock x:Name="TbInputNumbers" Margin="10,30,0,0" TextWrapping="Wrap" Text="Input" Height="35" Width="255" FontFamily="Open Sans" FontSize="24" HorizontalAlignment="Left" TextAlignment="Right" FontWeight="Bold" TextDecorations="{x:Null}"/>
-            <Button x:Name="BtnPrevious" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="219,8,0,0" Width="20" Height="17" FontFamily="Open Sans" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top"/>
-            <Button x:Name="BtnNext" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="246,8,0,0" VerticalAlignment="Top" Width="20" Height="17" FontFamily="Open Sans" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            <Button x:Name="BtnPreviousResult" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="219,8,0,0" Width="20" Height="17" FontFamily="Open Sans" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" Click="BtnPrevious_Click"/>
+            <Button x:Name="BtnNextResult" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="246,8,0,0" VerticalAlignment="Top" Width="20" Height="17" FontFamily="Open Sans" Background="{x:Null}" BorderBrush="{x:Null}" Click="BtnNextResult_Click"/>
             <TextBlock x:Name="TbResultMemory" HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="80" FontWeight="Bold"><Run Text="Memory"/><LineBreak/><Run/></TextBlock>
             <TextBlock x:Name="TbCalculationProgress" HorizontalAlignment="Left" Margin="95,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="113" FontWeight="Bold"><Run Text="Calc. progress"/></TextBlock>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="258" Margin="0,75,0,0" VerticalAlignment="Top" Width="287" Background="#FFECF1F1">
             <Button x:Name="BtnPercent" Content="%" HorizontalAlignment="Left" Margin="3,10,0,0" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" VerticalAlignment="Top"/>
             <Button x:Name="BtnSquareRoot" Content="√" HorizontalAlignment="Left" Margin="73,10,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnSquareRoot_Click"/>
-            <Button x:Name="BtnSquared" Content="x2" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" FontStyle="Italic" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnSquared_Click"/>
+            <Button x:Name="BtnSquare" Content="x2" HorizontalAlignment="Left" Margin="142,10,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" FontStyle="Italic" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnSquared_Click"/>
             <Button x:Name="Btn1x" Content="1/x" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" FontStyle="Italic" Background="#FFE8E6E6" BorderBrush="{x:Null}"/>
-            <Button x:Name="BtnClearLast" Content="CE" HorizontalAlignment="Left" Margin="3,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnClearLast_Click"/>
+            <Button x:Name="BtnClearCurrentNumber" Content="CE" HorizontalAlignment="Left" Margin="3,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnClearLast_Click"/>
             <Button x:Name="BtnClearAll" Content="C" HorizontalAlignment="Left" Margin="73,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnClearAll_Click"/>
             <Button x:Name="BtnBack" Content="&lt;--" HorizontalAlignment="Left" Margin="142,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="18" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnBack_Click"/>
             <Button x:Name="BtnDivision" Content="÷" HorizontalAlignment="Left" Margin="210,50,0,0" VerticalAlignment="Top" Width="62" Height="35" FontSize="24" Background="#FFE8E6E6" BorderBrush="{x:Null}" Click="BtnDivision_Click"/>

@@ -10,10 +10,13 @@ namespace CalculatorFunctions
     {
         //The array is used as a memory,so it can be used to check the previous or next element (if there is any)
         //100 because the 0th element is always 0... I used it as I needed a Previous number for the calculations as the index can't be -1
-        //There are three STEPS of the array:
+        //There are two STEPS of the array:
         //Step 1: The first number is always 0 or the previous number if the user has already calculated something e.g Memory[0] = 0
         //Step 2: This represents the current number which is in the TbInputNumbers textbox e.g Memory[1] = 50
-        //Step 3: This represents the result after any calculation e.g Memory[2] = 50; why? because 0+50 = 50
+        //Step 2.1: The calculation will always override the "Current number" as I'm not storing the current number in the Memory array but
+        //using it as the previous number every time, instead storing the result like this:
+        // e.g: 0+5 = 5; Memory[0] = 0, Memory[1] = 5; 5+5 = 10; 10+5 = 15; Memory[1] = 10, Memory[2] = 15; "5 is always the current number
+        //which we are using as an addition"
         static double[] Memory = new double[100];
 
        
@@ -22,11 +25,14 @@ namespace CalculatorFunctions
         
         
         
-        //Element of the Memory Array
+        //Current Element of the Memory Array
         static int MemoryIndex = 1;
 
-        //Element of the ResultMemory array
+        //Current Element of the ResultMemory array
         static int ResultMemoryIndex = 0;
+
+        //Navigator of the ResultMemory array (index but only for navigation)
+        static int ResultMemoryNavigator = 0;
 
         
 
@@ -193,6 +199,12 @@ namespace CalculatorFunctions
             return ResultMemory[ResultMemoryIndex + 1].ToString();
         }
 
+        //Returns the Previous element of the Memory array
+        public static double GiveBackPreviousElementOfMemoryArray()
+        {
+            return Memory[MemoryIndex - 1];
+        }
+
         //Clear full Memory array
         public static void ClearFullMemory()
         {
@@ -233,6 +245,12 @@ namespace CalculatorFunctions
         }
 
 
+
+
+
+        //Button related functions
+
+
         //Delete last letter of a string
         public static string RemoveLastNumberUsedByUser(string CurrentText)
         {
@@ -245,15 +263,28 @@ namespace CalculatorFunctions
             
         }
 
+        //Gives back previous element of Resultmemory
+        public static double GiveBackPreviousElementOfResultMemory()
+        {
+            ResultMemoryNavigator = ResultMemoryIndex;
 
+            return ResultMemory[ResultMemoryNavigator - 1];
 
+        }
 
+        //Gives back next element of Resultmemory
+        public static double GiveBackNextElementOfResultMemory()
+        {
+            ResultMemoryNavigator = ResultMemoryIndex;
 
+            return ResultMemory[ResultMemoryNavigator + 1];
+        }
 
-
-
-
-
+        //Gives back the value of ResultMemoryNavigator
+        public static int GiveBackValueOfResultMemoryNavigator()
+        {
+            return ResultMemoryNavigator;
+        }
 
 
 
