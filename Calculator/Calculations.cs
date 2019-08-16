@@ -32,7 +32,8 @@ namespace CalculatorFunctions
         static int ResultMemoryIndex = 0;
 
         //Navigator of the ResultMemory array (index but only for navigation)
-        static int ResultMemoryNavigator = 0;
+        //Starts at -1 because we have to increment it by one first
+        static int ResultMemoryNavigator = -1;
 
         
 
@@ -53,6 +54,16 @@ namespace CalculatorFunctions
                 Console.WriteLine(Memory[i]);
             }
             
+        }
+
+        //Use it for debugging!
+        public static void GiveBackResultMemoryValues()
+        {
+            for (int i = 0; i < ResultMemory.Length; i++)
+            {
+                Console.WriteLine(ResultMemory[i]);
+            }
+
         }
 
         //Addition
@@ -164,8 +175,7 @@ namespace CalculatorFunctions
 
             if (ResultMemoryIndex <= 48)
             {
-                ResultMemory[ResultMemoryIndex] = Result;
-                ResultMemoryIndex += 1;
+               
             }
 
 
@@ -266,24 +276,43 @@ namespace CalculatorFunctions
         //Gives back previous element of Resultmemory
         public static double GiveBackPreviousElementOfResultMemory()
         {
-            ResultMemoryNavigator = ResultMemoryIndex;
+            if (ResultMemoryNavigator > 0)
+            {
+                return ResultMemory[ResultMemoryNavigator - 1];
+            }
+            else
+                return -9999.6677712;
 
-            return ResultMemory[ResultMemoryNavigator - 1];
 
         }
 
         //Gives back next element of Resultmemory
         public static double GiveBackNextElementOfResultMemory()
         {
-            ResultMemoryNavigator = ResultMemoryIndex;
-
-            return ResultMemory[ResultMemoryNavigator + 1];
+            if (ResultMemoryNavigator < 50)
+            {
+                return ResultMemory[ResultMemoryNavigator + 1];
+            }
+            else
+                return -9999.6677712;
         }
 
         //Gives back the value of ResultMemoryNavigator
         public static int GiveBackValueOfResultMemoryNavigator()
         {
             return ResultMemoryNavigator;
+        }
+
+        //Increments navigator by one
+        public static void IncrementResultMemoryNavigatorByOne()
+        {
+            ResultMemoryNavigator++;
+        }
+
+        //Decrements navigator by one
+        public static void DecrementResultMemoryNavigatorByOne()
+        {
+            ResultMemoryNavigator--;
         }
 
 

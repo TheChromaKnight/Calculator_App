@@ -9,7 +9,7 @@
     <Grid Margin="0,0,-8,-4">
         <Grid HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="287" Background="#FFECF1F1">
             <TextBlock x:Name="TbInputNumbers" Margin="10,30,0,0" TextWrapping="Wrap" Text="Input" Height="35" Width="255" FontFamily="Open Sans" FontSize="24" HorizontalAlignment="Left" TextAlignment="Right" FontWeight="Bold" TextDecorations="{x:Null}"/>
-            <Button x:Name="BtnPreviousResult" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="219,8,0,0" Width="20" Height="17" FontFamily="Open Sans" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" Click="BtnPrevious_Click"/>
+            <Button x:Name="BtnPreviousResult" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="219,8,0,0" Width="20" Height="17" FontFamily="Open Sans" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" Click="BtnPrevious_Click" Foreground="Black"/>
             <Button x:Name="BtnNextResult" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="246,8,0,0" VerticalAlignment="Top" Width="20" Height="17" FontFamily="Open Sans" Background="{x:Null}" BorderBrush="{x:Null}" Click="BtnNextResult_Click"/>
             <TextBlock x:Name="TbResultMemory" HorizontalAlignment="Left" Margin="8,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Width="80" FontWeight="Bold"><Run Text="Memory"/><LineBreak/><Run/></TextBlock>
             <TextBlock x:Name="TbCalculationProgress" HorizontalAlignment="Left" Margin="95,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="113" FontWeight="Bold"><Run Text="Calc. progress"/></TextBlock>

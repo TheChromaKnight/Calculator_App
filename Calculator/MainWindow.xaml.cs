@@ -57,14 +57,12 @@ namespace Calculator
 
 
 
-
         public MainWindow()
         {
             InitializeComponent();
             TbInputNumbers.Text = "0";
             TbResultMemory.Text = "";
             TbCalculationProgress.Text = "";
-            
             
         }
 
@@ -350,8 +348,12 @@ namespace Calculator
             }
 
             //Storing the current number which is inside the tbINputNumbers textblock,Adding current number to Memory array
+            //Incrementing MemoryIndex by one
             //Storing the calculation in the result variable (Rounding the result)
-            //User cannot delete last number of the result
+            //Adding result to Memory and ResultMemory
+            //Incrementing the navigator by one and setting the navigator on this side to the new value
+            //User cannot delete last number of the result, setting NoCalculationsYet to false as we've just calculated
+
             CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
 
             Calculations.AddToMemory(CurrentNumber);
@@ -361,6 +363,10 @@ namespace Calculator
 
             Calculations.AddToMemory(Result);
             Calculations.AddToResultMemory(Result);
+            Calculations.IncrementResultMemoryIndexByOne();
+            Calculations.GiveBackResultMemoryValues();
+
+            Calculations.IncrementResultMemoryNavigatorByOne();
 
             UserCanDeleteLastNumber = true;
             NoCalculationsYet = false;
@@ -644,6 +650,7 @@ namespace Calculator
                 //We add the button's text to the TbCalculationProgress textblock 
                 //Adding the result to the Memory array and ResultMemory array
                 //incrementing the Memory array's and ResultMemory array's index counter by one
+                //Incrementing the navigator by one and setting the navigator on this side to the new value
 
                 double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
                 Calculations.AddToMemory(CurrentNumber);
@@ -659,6 +666,8 @@ namespace Calculator
                 Calculations.GiveBackMemoryValues();
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
+                
+                Calculations.IncrementResultMemoryNavigatorByOne();
 
                 //Setting the NoCalculationsYet variable to false as we've just calculated the result
                 NoCalculationsYet = false;
@@ -673,6 +682,7 @@ namespace Calculator
                 //We add the button's text to the TbCalculationProgress textblock 
                 //Adding the result to the Memory array and ResultMemory array
                 //incrementing the Memory array's and ResultMemory array's index counter by one
+                //Incrementing the navigator by one and setting the navigator on this side to the new value
 
                 Calculations.IncrementMemoryIndexByOne();
                 double PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
@@ -686,6 +696,9 @@ namespace Calculator
                 Calculations.GiveBackMemoryValues();
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
+
+                Calculations.IncrementResultMemoryNavigatorByOne();
+               
 
             }
 
@@ -715,6 +728,7 @@ namespace Calculator
                 //We add the button's text to the TbCalculationProgress textblock 
                 //Adding the result to the Memory array and ResultMemory array
                 //incrementing the Memory array's and ResultMemory array's index counter by one
+                //Incrementing the navigator by one and setting the navigator on this side to the new value
 
                 double CurrentNumber = Convert.ToDouble(TbInputNumbers.Text);
                 Calculations.AddToMemory(CurrentNumber);
@@ -731,6 +745,9 @@ namespace Calculator
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
 
+                Calculations.IncrementResultMemoryNavigatorByOne();
+                
+
                 //Setting the NoCalculationsYet variable to false as we've just calculated the result
                 NoCalculationsYet = false;
 
@@ -744,6 +761,7 @@ namespace Calculator
                 //We add the button's text to the TbCalculationProgress textblock 
                 //Adding the result to the Memory array and ResultMemory array
                 //incrementing the Memory array's and ResultMemory array's index counter by one
+                //Incrementing the navigator by one and setting the navigator on this side to the new value
 
                 Calculations.IncrementMemoryIndexByOne();
                 double PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
@@ -758,6 +776,8 @@ namespace Calculator
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
 
+                Calculations.IncrementResultMemoryNavigatorByOne();
+                
             }
 
             //Setting the UserCanDeleteLastNumber variable to false as the user cannot Delete back from the result
@@ -873,14 +893,31 @@ namespace Calculator
 
         //Button <<
         private void BtnPrevious_Click(object sender, RoutedEventArgs e)
-        {
+        { 
+            double PreviousResult = Calculations.GiveBackPreviousElementOfResultMemory();
 
+            double ExceptionValue = -9999.6677712;
+
+            if (PreviousResult != ExceptionValue && PreviousResult != 0 )
+            {
+                TbResultMemory.Text = PreviousResult.ToString();
+                Calculations.DecrementResultMemoryNavigatorByOne();
+            }
         }
 
         //Button >>
         private void BtnNextResult_Click(object sender, RoutedEventArgs e)
         {
+            double NextResult = Calculations.GiveBackNextElementOfResultMemory();
 
+            double ExceptionValue = -9999.6677712;
+
+            if (NextResult != ExceptionValue && NextResult != 0)
+            {
+                TbResultMemory.Text = NextResult.ToString();
+                Calculations.IncrementResultMemoryNavigatorByOne();
+                
+            }
         }
     }
 }
