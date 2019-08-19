@@ -663,7 +663,6 @@ namespace Calculator
                 TbCalculationProgress.Text = "(" + CurrentNumber + " * " + CurrentNumber + ")";
 
                 Calculations.AddToMemory(Result);
-                Calculations.GiveBackMemoryValues();
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
                 
@@ -685,7 +684,12 @@ namespace Calculator
                 //Incrementing the navigator by one and setting the navigator on this side to the new value
 
                 Calculations.IncrementMemoryIndexByOne();
-                double PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
+                double PreviousNumber = 0;
+                double ExceptionValue = -9999.6677712;
+                if (Calculations.GiveBackPreviousElementOfMemoryArray() != ExceptionValue)
+                {
+                    PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
+                }
                 double Result = Calculations.SquareNumber();
                 Math.Round(Result, 10);
 
@@ -693,7 +697,7 @@ namespace Calculator
                 TbCalculationProgress.Text = "(" + PreviousNumber + " * " + PreviousNumber + ")";
 
                 Calculations.AddToMemory(Result);
-                Calculations.GiveBackMemoryValues();
+                
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
 
@@ -741,7 +745,7 @@ namespace Calculator
                 TbCalculationProgress.Text = "√" + CurrentNumber + "";
 
                 Calculations.AddToMemory(Result);
-                Calculations.GiveBackMemoryValues();
+                
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
 
@@ -772,7 +776,7 @@ namespace Calculator
                 TbCalculationProgress.Text = "(" + PreviousNumber + " * " + PreviousNumber + ")";
 
                 Calculations.AddToMemory(Result);
-                Calculations.GiveBackMemoryValues();
+                
                 Calculations.AddToResultMemory(Result);
                 Calculations.IncrementResultMemoryIndexByOne();
 

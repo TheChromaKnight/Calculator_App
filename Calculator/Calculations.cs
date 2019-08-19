@@ -17,23 +17,23 @@ namespace CalculatorFunctions
         //using it as the previous number every time, instead storing the result like this:
         // e.g: 0+5 = 5; Memory[0] = 0, Memory[1] = 5; 5+5 = 10; 10+5 = 15; Memory[1] = 10, Memory[2] = 15; "5 is always the current number
         //which we are using as an addition"
-        static double[] Memory = new double[100];
+        public static double[] Memory = new double[100];
 
        
         // Array for the results ONLY
-        static double[] ResultMemory = new double[50];
+        public static double[] ResultMemory = new double[50];
         
         
         
         //Current Element of the Memory Array
-        static int MemoryIndex = 1;
+        public static int MemoryIndex = 1;
 
         //Current Element of the ResultMemory array
-        static int ResultMemoryIndex = 0;
+        public static int ResultMemoryIndex = 0;
 
         //Navigator of the ResultMemory array (index but only for navigation)
         //Starts at -1 because we have to increment it by one first
-        static int ResultMemoryNavigator = -1;
+        public static int ResultMemoryNavigator = -1;
 
         
 
@@ -130,7 +130,7 @@ namespace CalculatorFunctions
             return Result;
         }
         
-
+        //SquareRoot
         public static double SquareRootNumber()
         {
             PreviousNumber = Memory[MemoryIndex - 1];
@@ -171,13 +171,6 @@ namespace CalculatorFunctions
             else
                 Result = 0;
 
-           
-
-            if (ResultMemoryIndex <= 48)
-            {
-               
-            }
-
 
             return Result;
         }
@@ -194,58 +187,61 @@ namespace CalculatorFunctions
         //Add to Memory array part
         public static void AddToMemory(double Number)
         {
-            Memory[MemoryIndex] = Number;
+            if (MemoryIndex <= 99)
+            {
+                Memory[MemoryIndex] = Number;
+            }
+            
         }
 
-        //Return penultimate value of Memory array
-        public static string  ReturnPreviousElementOfResultMemory()
-        {
-            return ResultMemory[ResultMemoryIndex - 1].ToString();
-        }
-
-        //Return next value of Memory array
-        public static string ReturnNextElementOfMemory()
-        {
-            return ResultMemory[ResultMemoryIndex + 1].ToString();
-        }
-
+        
         //Returns the Previous element of the Memory array
         public static double GiveBackPreviousElementOfMemoryArray()
         {
-            return Memory[MemoryIndex - 1];
+            double ExceptionValue = -9999.6677712;
+
+            if (MemoryIndex > 0)
+            {
+                return Memory[MemoryIndex - 1];
+            }
+            else
+                return ExceptionValue;
+
         }
 
         //Clear full Memory array
         public static void ClearFullMemory()
         {
-            Array.Clear(Memory, 0, 50);
+            Array.Clear(Memory, 0, Memory.Length);
             MemoryIndex = 1;
             
         }
 
-        //Clear last element of Memory array
-        public static void ClearLastElementOfMemory()
-        {
-            Array.Clear(Memory,MemoryIndex ,1);
-            MemoryIndex -= 1;
-        }
 
         //Increment memory index by one
         public static void IncrementMemoryIndexByOne()
         {
-            MemoryIndex += 1;
+            if(MemoryIndex < 99)
+            {
+                MemoryIndex += 1;
+            }
         }
 
         //Add to ResultMemory
         public static void AddToResultMemory(double Number)
         {
+            if(ResultMemoryIndex <= 49)
             ResultMemory[ResultMemoryIndex] = Number;
         }
 
         //Increment memory index by one
         public static void IncrementResultMemoryIndexByOne()
         {
-            ResultMemoryIndex += 1;
+            if(ResultMemoryIndex < 49)
+            {
+                ResultMemoryIndex += 1;
+            }
+            
         }
 
         //Give back the most recently added value of ResultMemory array
