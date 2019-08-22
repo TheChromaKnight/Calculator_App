@@ -196,7 +196,7 @@ namespace CalculatorFunctions
 
         
         //Returns the Previous element of the Memory array
-        public static double GiveBackPreviousElementOfMemoryArray()
+        public static double GiveBackPreviousElementOfMemory()
         {
             double ExceptionValue = -9999.6677712;
 
@@ -231,7 +231,10 @@ namespace CalculatorFunctions
         public static void AddToResultMemory(double Number)
         {
             if(ResultMemoryIndex <= 49)
-            ResultMemory[ResultMemoryIndex] = Number;
+            {
+                ResultMemory[ResultMemoryIndex] = Number;
+            }
+            
         }
 
         //Increment memory index by one

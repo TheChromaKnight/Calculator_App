@@ -686,9 +686,9 @@ namespace Calculator
                 Calculations.IncrementMemoryIndexByOne();
                 double PreviousNumber = 0;
                 double ExceptionValue = -9999.6677712;
-                if (Calculations.GiveBackPreviousElementOfMemoryArray() != ExceptionValue)
+                if (Calculations.GiveBackPreviousElementOfMemory() != ExceptionValue)
                 {
-                    PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
+                    PreviousNumber = Calculations.GiveBackPreviousElementOfMemory();
                 }
                 double Result = Calculations.SquareNumber();
                 Math.Round(Result, 10);
@@ -768,7 +768,7 @@ namespace Calculator
                 //Incrementing the navigator by one and setting the navigator on this side to the new value
 
                 Calculations.IncrementMemoryIndexByOne();
-                double PreviousNumber = Calculations.GiveBackPreviousElementOfMemoryArray();
+                double PreviousNumber = Calculations.GiveBackPreviousElementOfMemory();
                 double Result = Calculations.SquareRootNumber();
                 Math.Round(Result, 10);
 
